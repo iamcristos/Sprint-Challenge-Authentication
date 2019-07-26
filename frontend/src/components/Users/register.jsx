@@ -6,7 +6,7 @@ export default function Register(props) {
     return (
         <div>
             <Navigation url={'/'}>
-                {'Login'}
+                {' Login '}
                 </Navigation>
             <Form 
                 btnName={props.btnName}
