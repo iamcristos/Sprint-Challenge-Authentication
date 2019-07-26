@@ -9,5 +9,6 @@ module.exports = {
     },
     comparePassword(password, hash) {
         const compare = bcrypt.compareSync(password, hash)
+        return compare
     }
 }

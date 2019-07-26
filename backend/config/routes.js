@@ -46,7 +46,7 @@ async function login(req, res) {
     } = req;
     const user = await Users.find(req.body.username)
     const compare = comparePassword(body.password, user[0].password)
-    if (!user.length || compare) {
+    if (!compare) {
       return res.status(400).json('Invalid request')
     }
     res.status(200).json({
