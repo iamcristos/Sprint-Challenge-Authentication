@@ -1,5 +1,6 @@
 import React from 'react';
 import {toast} from 'react-toastify';
+import { withRouter} from 'react-router-dom';
 import axois from '../../axois';
 import styled from 'styled-components';
 import Svg from '../../assests/images.svg';
@@ -53,7 +54,7 @@ const Form = styled.form`
         }
     }
 `;
-export default function PostForm(props) {
+function PostForm(props) {
     const [username, updateUsername] = React.useState('')
     const [password, updatePassword] = React.useState('')
     const onSubmitHandler = (e)=>{
@@ -62,13 +63,25 @@ export default function PostForm(props) {
             username,
             password
         }
-        axois().post(`/${props.url}`,user )
-            .then(res=>toast.success('user added sucessfully'))
-            .catch(err=> toast.error('user was not added'))
-            .finally(()=>{
-                updateUsername('')
-                updatePassword('')
+        axois('').post(`${props.url}`,user )
+            .then(res=>{
+                if(props.url === '/register') {
+                    toast.success('user added sucessfully');
+                    props.history.push('/login')
+                } else {
+                    localStorage.setItem( 'token',res.data.token);
+                    props.history.push('/jokes')
+                }
             })
+            .catch(err=> {
+                if(props.url === '/register') {
+                    toast.error('user was not added')
+                }else {
+                    toast.error('invalid credentials')
+                }
+                
+            })
+            
     }
     return (
         <Div>
@@ -95,3 +108,5 @@ export default function PostForm(props) {
         </Div>
     )
 }
+
+export default withRouter(PostForm)

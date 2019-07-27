@@ -77,5 +77,4 @@ describe('/api/jokes', () => {
                 expect(res.status).toEqual(200)
             })
     })
-
 })
